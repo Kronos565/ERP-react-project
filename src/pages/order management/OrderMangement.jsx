@@ -92,34 +92,34 @@ export default function OrderMangement() {
                       }
                     >
                       <li>
-                        <a
+                        <button
                           className="dropdown-item"
                           onClick={() => {
                             handileUpdateStatus("Confirmed", order.orderId);
                           }}
                         >
                           Confirmed
-                        </a>
+                        </button>
                       </li>
                       <li>
-                        <a
+                        <button
                           className="dropdown-item"
                           onClick={() => {
                             handileUpdateStatus("Shipped", order.orderId);
                           }}
                         >
                           Shipped
-                        </a>
+                        </button>
                       </li>
                       <li>
-                        <a
+                        <button
                           className="dropdown-item"
                           onClick={() => {
                             handileUpdateStatus("Deliverd", order.orderId);
                           }}
                         >
                           Deliverd
-                        </a>
+                        </button>
                       </li>
                     </ul>
                   </div>
