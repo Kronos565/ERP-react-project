@@ -1,14 +1,18 @@
+// Import necessary modules and components
 import React, { useContext, useState } from "react";
 import Navbar from "../../components/navbar/Navbar";
 import { MdDelete } from "react-icons/md";
 import { MyContext } from "../../context/MyContext";
 
+// Order Management component for handling orders
 export default function OrderMangement() {
-  const { orders } = useContext(MyContext);
-  const { setOrders } = useContext(MyContext);
+  // Access orders and setOrders function from the context
+  const { orders, setOrders } = useContext(MyContext);
 
+  // State for managing dropdown visibility
   const [isOpen, setIsOpen] = useState();
 
+  // Function to toggle dropdown visibility based on order Id
   const toggleDropdown = (Id) => {
     if (isOpen) {
       setIsOpen();
@@ -17,32 +21,37 @@ export default function OrderMangement() {
     }
   };
 
+  // Function to handle order deletion
   const handileDeleteOrder = (Id) => {
     // Filter out the order with the given Id
     const newData = orders.filter((order) => order.orderId !== Id);
+
     // Update the orders state with the new filtered array
     setOrders(newData);
     alert(`Deleted order with ID: ${Id}`);
   };
 
+  // Function to handle updating order status
   const handileUpdateStatus = (newStatus, orderId) => {
-    console.log("newStatus", newStatus, orderId);
-    // Find the index of the product to be updated
+    // Find the index of the order to be updated
     const orderIndex = orders.findIndex((order) => order.orderId === orderId);
 
     // Make a copy of the orders array
     const updatedOrders = [...orders];
     updatedOrders[orderIndex].status = newStatus;
 
+    // Update the orders state with the updated array and close the dropdown
     setOrders(updatedOrders);
     setIsOpen(null);
   };
 
   return (
     <div>
+      {/* Render the Navbar component for navigation */}
       <Navbar />
       <div className="m-5">
         <div className="table-responsive">
+          {/* Table for displaying orders */}
           <table className="table border">
             <thead>
               <tr className="rounded-top">
@@ -64,13 +73,14 @@ export default function OrderMangement() {
               </tr>
             </thead>
             <tbody>
+              {/* Map through orders and render each row */}
               {orders.map((order) => (
                 <tr key={order.orderId}>
                   <th scope="row">{order.orderId}</th>
                   <td>{order.customerName}</td>
                   <td>{order.orderDate}</td>
                   <td>
-                    {" "}
+                    {/* Dropdown for updating order status */}
                     <div className="dropdown">
                       <button
                         className="btn btn-secondary dropdown-toggle"
@@ -84,6 +94,7 @@ export default function OrderMangement() {
                       >
                         {order.status}
                       </button>
+                      {/* Dropdown menu with status options */}
                       <ul
                         className={
                           "dropdown-menu" +
@@ -114,15 +125,16 @@ export default function OrderMangement() {
                           <button
                             className="dropdown-item"
                             onClick={() => {
-                              handileUpdateStatus("Deliverd", order.orderId);
+                              handileUpdateStatus("Delivered", order.orderId);
                             }}
                           >
-                            Deliverd
+                            Delivered
                           </button>
                         </li>
                       </ul>
                     </div>
                   </td>
+                  {/* Delete button */}
                   <td role="button" className="text-danger text-center fs-5">
                     <MdDelete
                       onClick={() => {

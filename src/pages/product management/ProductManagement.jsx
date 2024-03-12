@@ -1,3 +1,4 @@
+// Import necessary modules and components
 import React, { useContext, useState } from "react";
 import Navbar from "../../components/navbar/Navbar";
 import { FaEdit } from "react-icons/fa";
@@ -5,42 +6,28 @@ import { MdDelete } from "react-icons/md";
 import { CloseButton } from "react-bootstrap";
 import { MyContext } from "../../context/MyContext";
 
+// Product Management page component for handling products
 export default function ProductManagement() {
+  // Access products and setProducts from the context
   const { products, setProducts } = useContext(MyContext);
 
-  // this state are using handile form for edit product and create new product.
+  // States for handling form inputs and popups
   const [productIdForEdit, setProductIdForEdit] = useState(null);
   const [nameText, setNameText] = useState("");
   const [categoryText, setCategoryText] = useState("");
   const [priceInput, setPriceInput] = useState(null);
   const [qtyInput, setQtyInput] = useState(null);
 
-  // const [selectedData, setSelectedData] = useState([]);
-
-  // this state and fuction using to show popup for create new product.
+  // States and functions for handling popups for new product and edit product
   const [isOpenPopupForNew, setIsOpenPopupForNew] = useState(false);
+  const [isOpenPopupForEdit, setIsOpenPopupForEdit] = useState(false);
 
+  // Function to toggle the popup for creating a new product
   const togglePopupForNew = () => {
     setIsOpenPopupForNew(!isOpenPopupForNew);
   };
 
-  // this state and fuction using to show popup for edit product.
-  const [isOpenPopupForEdit, setIsOpenPopupForEdit] = useState(false);
-
-  const togglePopup = () => {
-    setIsOpenPopupForEdit(!isOpenPopupForEdit);
-  };
-
-  const handileUpdate = (data) => {
-    console.log("data", data);
-    setProductIdForEdit(data.id);
-    setNameText(data.name);
-    setCategoryText(data.category);
-    setPriceInput(data.price);
-    setQtyInput(data.quantity);
-    togglePopup();
-  };
-
+  // Function to close the popup for creating a new product
   const handileCloseForNewProduct = () => {
     setNameText("");
     setCategoryText("");
@@ -49,11 +36,14 @@ export default function ProductManagement() {
     setIsOpenPopupForNew(false);
   };
 
+  // Function to submit the form for creating a new product
   const handileSubmitForNewProduct = () => {
+    // Find the last index of products array
     products.sort((a, b) => a.id - b.id);
     products.reverse();
     const findLastIndex = products[0].id;
 
+    // Create new product data
     const newData = {
       id: findLastIndex + 1,
       name: nameText,
@@ -62,14 +52,17 @@ export default function ProductManagement() {
       quantity: qtyInput,
     };
 
+    // Reverse the products array and create a copy
     products.reverse();
     const copyArray = [...products];
     copyArray.push(newData);
 
+    // Update the state with the modified products array
     setProducts(copyArray);
     handileCloseForNewProduct();
   };
 
+  // Function to close the popup for editing a product
   const handileCloseForEditProduct = () => {
     setNameText("");
     setCategoryText("");
@@ -78,6 +71,7 @@ export default function ProductManagement() {
     setIsOpenPopupForEdit(false);
   };
 
+  // Function to submit the form for editing a product
   const handileSubmitForEditProduct = () => {
     // Find the index of the product to be updated
     const productIndex = products.findIndex(
@@ -101,6 +95,17 @@ export default function ProductManagement() {
     handileCloseForEditProduct();
   };
 
+  // Function to handle updating product data for editing
+  const handileUpdate = (data) => {
+    setProductIdForEdit(data.id);
+    setNameText(data.name);
+    setCategoryText(data.category);
+    setPriceInput(data.price);
+    setQtyInput(data.quantity);
+    setIsOpenPopupForEdit(true);
+  };
+
+  // Function to handle deleting a product
   const handileDeleteProduct = (Id) => {
     // Filter out the product with the given Id
     const newData = products.filter((product) => product.id !== Id);
@@ -111,9 +116,11 @@ export default function ProductManagement() {
 
   return (
     <div>
+      {/* Render the Navbar component for navigation */}
       <Navbar />
 
       <div className="m-5">
+        {/* Popup for creating a new product */}
         {isOpenPopupForNew ? (
           <div className="d-flex align-items-center justify-content-center position-relative">
             <div className="position-absolute top-0 z-3 w-75 border border-2 rounded p-3 bg-light">
@@ -122,8 +129,9 @@ export default function ProductManagement() {
                   <CloseButton onClick={handileCloseForNewProduct} />
                 </div>
                 <form className="p-3">
+                  {/* Form fields for new product */}
                   <div className="mb-3">
-                    <label for="name" className="form-label">
+                    <label htmlFor="name" className="form-label">
                       Name
                     </label>
                     <input
@@ -137,7 +145,7 @@ export default function ProductManagement() {
                     />
                   </div>
                   <div className="mb-3">
-                    <label for="category" className="form-label">
+                    <label htmlFor="category" className="form-label">
                       Category
                     </label>
                     <input
@@ -152,7 +160,7 @@ export default function ProductManagement() {
                   </div>
                   <div className="mb-3 row">
                     <div className="col-md-6">
-                      <label for="price" className="form-label">
+                      <label htmlFor="price" className="form-label">
                         Price
                       </label>
                       <input
@@ -166,7 +174,7 @@ export default function ProductManagement() {
                       />
                     </div>
                     <div className="col-md-6">
-                      <label for="quantity" className="form-label">
+                      <label htmlFor="quantity" className="form-label">
                         Quantity
                       </label>
                       <input
@@ -180,9 +188,10 @@ export default function ProductManagement() {
                       />
                     </div>
                   </div>
+                  {/* Submit button for new product */}
                   <div className="text-center">
                     <button
-                      type="submit"
+                      type="button"
                       className="btn btn-primary"
                       onClick={handileSubmitForNewProduct}
                     >
@@ -197,20 +206,18 @@ export default function ProductManagement() {
           <></>
         )}
 
+        {/* Popup for editing an existing product */}
         {isOpenPopupForEdit ? (
           <div className="d-flex align-items-center justify-content-center position-relative">
             <div className="position-absolute top-0 z-3 w-75 border border-2 rounded p-3 bg-light">
               <div>
                 <div className="text-end">
-                  <CloseButton
-                    onClick={() => {
-                      handileCloseForEditProduct(false);
-                    }}
-                  />
+                  <CloseButton onClick={handileCloseForEditProduct} />
                 </div>
                 <form className="p-3">
+                  {/* Form fields for editing product */}
                   <div className="mb-3">
-                    <label for="name" className="form-label">
+                    <label htmlFor="name" className="form-label">
                       Name
                     </label>
                     <input
@@ -224,7 +231,7 @@ export default function ProductManagement() {
                     />
                   </div>
                   <div className="mb-3">
-                    <label for="category" className="form-label">
+                    <label htmlFor="category" className="form-label">
                       Category
                     </label>
                     <input
@@ -239,7 +246,7 @@ export default function ProductManagement() {
                   </div>
                   <div className="mb-3 row">
                     <div className="col-md-6">
-                      <label for="price" className="form-label">
+                      <label htmlFor="price" className="form-label">
                         Price
                       </label>
                       <input
@@ -253,7 +260,7 @@ export default function ProductManagement() {
                       />
                     </div>
                     <div className="col-md-6">
-                      <label for="quantity" className="form-label">
+                      <label htmlFor="quantity" className="form-label">
                         Quantity
                       </label>
                       <input
@@ -267,9 +274,10 @@ export default function ProductManagement() {
                       />
                     </div>
                   </div>
+                  {/* Submit button for editing product */}
                   <div className="text-center">
                     <button
-                      type="submit"
+                      type="button"
                       className="btn btn-primary"
                       onClick={handileSubmitForEditProduct}
                     >
@@ -284,11 +292,14 @@ export default function ProductManagement() {
           <></>
         )}
 
+        {/* Button to trigger the popup for creating a new product */}
         <div className="text-end">
           <button className="btn btn-success my-4" onClick={togglePopupForNew}>
             Add Product
           </button>
         </div>
+
+        {/* Table for displaying product data */}
         <div className="table-responsive">
           <table className="table border">
             <thead>
@@ -320,6 +331,7 @@ export default function ProductManagement() {
               </tr>
             </thead>
             <tbody>
+              {/* Map through products to display each row */}
               {products.map((product) => (
                 <tr key={product.id}>
                   <th scope="row">{product.id}</th>
@@ -327,6 +339,7 @@ export default function ProductManagement() {
                   <td>{product.category}</td>
                   <td>{product.price}</td>
                   <td>{product.quantity}</td>
+                  {/* Button for editing a product */}
                   <td
                     role="button"
                     className="text-secondary text-center fs-5"
@@ -334,6 +347,7 @@ export default function ProductManagement() {
                   >
                     <FaEdit />
                   </td>
+                  {/* Button for deleting a product */}
                   <td
                     role="button"
                     className="text-danger text-center fs-5"
