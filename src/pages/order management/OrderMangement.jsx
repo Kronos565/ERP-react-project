@@ -44,6 +44,7 @@ export default function OrderMangement() {
     <div>
       <Navbar />
       <div className="m-5">
+        <div className="table-responsive">
         <table className="table border">
           <thead>
             <tr className="rounded-top">
@@ -135,6 +136,7 @@ export default function OrderMangement() {
             ))}
           </tbody>
         </table>
+        </div>
       </div>
     </div>
   );

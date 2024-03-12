@@ -290,6 +290,7 @@ export default function ProductManagement() {
             Add Product
           </button>
         </div>
+        <div className="table-responsive">
         <table className="table border">
           <thead>
             <tr className="rounded-top">
@@ -342,6 +343,7 @@ export default function ProductManagement() {
             ))}
           </tbody>
         </table>
+        </div>
       </div>
     </div>
   );
