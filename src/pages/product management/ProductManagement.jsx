@@ -50,7 +50,6 @@ export default function ProductManagement() {
   };
 
   const handileSubmitForNewProduct = () => {
-
     products.sort((a, b) => a.id - b.id);
     products.reverse();
     const findLastIndex = products[0].id;
@@ -291,58 +290,61 @@ export default function ProductManagement() {
           </button>
         </div>
         <div className="table-responsive">
-        <table className="table border">
-          <thead>
-            <tr className="rounded-top">
-              <th className="bg-primary rounded-top" scope="col">
-                ID
-              </th>
-              <th className="bg-primary rounded-top" scope="col">
-                Name
-              </th>
-              <th className="bg-primary rounded-top" scope="col">
-                Category
-              </th>
-              <th className="bg-primary rounded-top" scope="col">
-                Price
-              </th>
-              <th className="bg-primary rounded-top" scope="col">
-                Quantity
-              </th>
-              <th className="bg-secondary rounded-top text-center" scope="col">
-                Edit
-              </th>
-              <th className="bg-danger rounded-top text-center" scope="col">
-                Delete
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {products.map((product) => (
-              <tr key={product.id}>
-                <th scope="row">{product.id}</th>
-                <td>{product.name}</td>
-                <td>{product.category}</td>
-                <td>{product.price}</td>
-                <td>{product.quantity}</td>
-                <td
-                  role="button"
-                  className="text-secondary text-center fs-5"
-                  onClick={() => handileUpdate(product)}
+          <table className="table border">
+            <thead>
+              <tr className="rounded-top">
+                <th className="bg-primary rounded-top" scope="col">
+                  ID
+                </th>
+                <th className="bg-primary rounded-top" scope="col">
+                  Name
+                </th>
+                <th className="bg-primary rounded-top" scope="col">
+                  Category
+                </th>
+                <th className="bg-primary rounded-top" scope="col">
+                  Price
+                </th>
+                <th className="bg-primary rounded-top" scope="col">
+                  Quantity
+                </th>
+                <th
+                  className="bg-secondary rounded-top text-center"
+                  scope="col"
                 >
-                  <FaEdit />
-                </td>
-                <td
-                  role="button"
-                  className="text-danger text-center fs-5"
-                  onClick={() => handileDeleteProduct(product.id)}
-                >
-                  <MdDelete />
-                </td>
+                  Edit
+                </th>
+                <th className="bg-danger rounded-top text-center" scope="col">
+                  Delete
+                </th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {products.map((product) => (
+                <tr key={product.id}>
+                  <th scope="row">{product.id}</th>
+                  <td>{product.name}</td>
+                  <td>{product.category}</td>
+                  <td>{product.price}</td>
+                  <td>{product.quantity}</td>
+                  <td
+                    role="button"
+                    className="text-secondary text-center fs-5"
+                    onClick={() => handileUpdate(product)}
+                  >
+                    <FaEdit />
+                  </td>
+                  <td
+                    role="button"
+                    className="text-danger text-center fs-5"
+                    onClick={() => handileDeleteProduct(product.id)}
+                  >
+                    <MdDelete />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
